@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>দৈনিক আয়-ব্যয়</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#1b2333;--mu:#6b7690;--pr:#5b5bf0;--pr2:#8a5cf6;--gr:#12b886;--rd:#f0506e;--bd:#e6e9f2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1320;--card:#1a2033;--tx:#eef1fa;--mu:#9aa5c4;--bd:#272f48}}
+:root[data-theme="dark"]{--bg:#0f1320;--card:#1a2033;--tx:#eef1fa;--mu:#9aa5c4;--bd:#272f48}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--tx);font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;min-height:100vh}
+.wrap{max-width:520px;margin:0 auto;padding:16px 16px 96px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:16px;margin-top:14px}
+.hero{background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;border-radius:24px;padding:20px;margin-top:14px}
+.hero small{opacity:.85}.hero h1{font-size:34px;margin:2px 0 14px}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.pill{background:rgba(255,255,255,.18);border-radius:14px;padding:10px 12px}
+.pill b{display:block;font-size:18px}
+input,select{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;font-size:16px;margin-top:10px}
+button{font:inherit;cursor:pointer;border:0}
+.btn{width:100%;margin-top:12px;padding:14px;border-radius:14px;background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;font-weight:600;font-size:16px}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);display:flex;justify-content:center;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px))}
+.nav div{display:flex;max-width:520px;width:100%}
+.nav button{flex:1;background:none;color:var(--mu);padding:8px;font-size:13px;border-radius:12px}
+.nav button span{display:block;font-size:20px}
+.nav button.on{color:var(--pr);font-weight:600}
+.mon{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.mon button{background:var(--card);border:1px solid var(--bd);color:var(--tx);width:38px;height:38px;border-radius:12px;font-size:18px}
+.item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.item:last-child{border:0}
+.ic{width:42px;height:42px;border-radius:14px;background:var(--bg);display:grid;place-items:center;font-size:20px}
+.item .m{flex:1;min-width:0}.item .m small{color:var(--mu)}
+.amt{font-weight:700}.out{color:var(--rd)}.in{color:var(--gr)}
+.x{background:none;color:var(--mu);font-size:18px;padding:4px}
+.bar{height:8px;border-radius:8px;background:var(--bg);margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pr),var(--pr2));border-radius:8px}
+h2{font-size:17px}.mu{color:var(--mu);font-size:14px}.empty{text-align:center;color:var(--mu);padding:18px 0}
+.login{min-height:80vh;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.logo{font-size:56px}
+.clk{display:flex;align-items:baseline;justify-content:space-between;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:10px 14px}
+.clk b{font-size:22px;color:var(--pr)}.clk span{color:var(--mu);font-size:14px}
+.hide{display:none}
+.sg{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:14px}.sb{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;padding:0;border:0;cursor:pointer;text-decoration:none;box-shadow:0 3px 8px rgba(0,0,0,.18)}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.top .tg{margin:0}
+.hb{display:flex;align-items:center;gap:8px;font-weight:700;font-size:17px}.hb svg{width:36px;height:36px;filter:drop-shadow(0 3px 6px rgba(91,91,240,.35))}
+#prn{display:none}
+@media print{body>*:not(#prn){display:none!important}#prn{display:block;padding:12px;color:#1b2333;font-family:'Hind Siliguri',sans-serif}}
+.tg{display:flex;gap:8px;justify-content:flex-end;margin-bottom:10px}
+.tg button{background:var(--card);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:6px 14px;font-size:14px;font-weight:600}
+.al{background:rgba(240,80,110,.12);border:1px solid rgba(240,80,110,.45);color:var(--rd);border-radius:16px;padding:12px 14px;margin-top:14px;display:flex;gap:10px;align-items:center}
+.mdl{position:fixed;inset:0;background:rgba(10,14,30,.55);display:grid;place-items:center;padding:20px;z-index:50}
+.mb{background:var(--card);border-radius:24px;padding:24px;max-width:340px;width:100%;text-align:center}
+.mb .big{font-size:46px}
+#rep{position:fixed;left:-9999px;top:0;width:720px;background:#fff;color:#1b2333;padding:32px;font-family:'Hind Siliguri',sans-serif}
+.splash{background:linear-gradient(160deg,#5b5bf0,#8a5cf6 60%,#c05cf6);color:#fff;border-radius:28px;padding:30px 20px 24px;text-align:center;margin-top:14px;position:relative;overflow:hidden}
+.splash:before,.splash:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.1)}
+.splash:before{width:180px;height:180px;top:-70px;right:-60px}.splash:after{width:120px;height:120px;bottom:-50px;left:-40px}
+.splash svg{filter:drop-shadow(0 8px 16px rgba(0,0,0,.25));position:relative}.cov{width:100%;max-width:340px;height:auto}.brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;position:relative}.brand svg{width:46px;height:46px}.brand h1{margin:0!important;font-size:26px!important}
+.splash h1{font-size:30px;margin-top:10px;position:relative}.splash p{opacity:.9;margin-top:4px;position:relative}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px;position:relative}
+.chips span{background:rgba(255,255,255,.2);border-radius:20px;padding:6px 12px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const CATS0={food:['🍚','খাবার'],transport:['🚌','যাতায়াত'],wifi:['📶','ওয়াইফাই বিল'],elec:['💡','বিদ্যুৎ বিল'],gas:['🔥','গ্যাস বিল'],snack:['🥪','নাস্তা'],dps:['🏦','DPS / সঞ্চয়'],rent:['🏠','বাসা ভাড়া'],shop:['🛍️','কেনাকাটা'],health:['💊','চিকিৎসা'],edu:['📚','শিক্ষা'],fun:['🎬','বিনোদন'],other:['📦','অন্যান্য']};
+const SRC0={salary:['💼','বেতন'],business:['🏪','ব্যবসা'],freelance:['💻','ফ্রিল্যান্স'],bal:['📱','মোবাইল/ইন্টারনেট ব্যালেন্স'],gift:['🎁','উপহার'],other:['💰','অন্যান্য']};
+const fbk={get:(o,k)=>k in o?o[k]:['📦','অন্যান্য']};const CATS=new Proxy(CATS0,fbk),SRC=new Proxy(SRC0,fbk);
+const MNE=['January','February','March','April','May','June','July','August','September','October','November','December'];const MNB=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];let MN=MNB,lang='bn',_m;
+const bn=n=>Number(n).toLocaleString(lang==='en'?'en-US':'bn-BD');
+const tk=n=>'৳'+bn(Math.round(n));
+let mem={},user=null,tab='home',cur=new Date();cur.setDate(1);
+const st={get(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}};
+let data={tx:[]};
+function load(){try{data=JSON.parse(st.get('h_'+user))||{tx:[]}}catch(e){data={tx:[]}}if(!data.tx)data.tx=[];if(!data.loans)data.loans=[];data.tx.forEach(t=>{if(t.cat==='bill')t.cat='other'})}
+function save(){st.set('h_'+user,JSON.stringify(data))}
+function ym(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function opts(o){return Object.entries(o).map(([k,v])=>`<option value="${k}">${v[0]} ${v[1]}</option>`).join('')}
+const LOGO=`<svg viewBox="0 0 96 96"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a4ae0"/><stop offset="1" stop-color="#9a5cf6"/></linearGradient></defs><rect width="96" height="96" rx="26" fill="#fff"/><rect x="6" y="6" width="84" height="84" rx="21" fill="url(#lg)"/><rect x="20" y="26" width="56" height="50" rx="12" fill="#fff"/><path d="M20 38a12 12 0 0 1 12-12h32a12 12 0 0 1 12 12v4H20z" fill="#f0506e"/><rect x="32" y="18" width="6" height="16" rx="3" fill="#fff"/><rect x="58" y="18" width="6" height="16" rx="3" fill="#fff"/><text x="48" y="68" text-anchor="middle" font-size="26" font-weight="700" fill="#5b5bf0" font-family="sans-serif">৳</text></svg>`;
+const COVER=`<svg class="cov" viewBox="0 0 360 190" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gw" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e6e3ff"/></linearGradient><linearGradient id="gc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#ffb703"/></linearGradient></defs><g fill="#fff" opacity=".75"><circle cx="38" cy="30" r="3"/><circle cx="322" cy="30" r="4"/><circle cx="196" cy="170" r="2.5"/><circle cx="14" cy="100" r="2"/><circle cx="346" cy="120" r="2.5"/><path d="M180 12l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><path d="M100 34l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g><g fill="#fff" opacity=".88"><rect x="272" y="124" width="16" height="42" rx="4"/><rect x="294" y="102" width="16" height="64" rx="4"/><rect x="316" y="78" width="16" height="88" rx="4"/></g><path d="M266 108L296 88L324 62" stroke="#7CFFCB" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="324" cy="62" r="6" fill="#7CFFCB"/><g transform="rotate(-8 170 70)"><rect x="124" y="34" width="96" height="50" rx="8" fill="#7CFFCB"/><circle cx="172" cy="59" r="13" fill="#12b886"/><text x="172" y="65" text-anchor="middle" font-size="17" fill="#fff" font-weight="700">৳</text></g><rect x="100" y="76" width="148" height="92" rx="16" fill="url(#gw)"/><path d="M100 92a16 16 0 0 1 16-16h116a16 16 0 0 1 16 16v6H100z" fill="#f0506e"/><rect x="198" y="112" width="56" height="30" rx="10" fill="#5b5bf0"/><circle cx="214" cy="127" r="6" fill="#fff"/><g><ellipse cx="62" cy="168" rx="32" ry="10" fill="#e09f00"/><rect x="30" y="152" width="64" height="16" fill="#ffb703"/><ellipse cx="62" cy="152" rx="32" ry="10" fill="#e09f00"/><rect x="30" y="136" width="64" height="16" fill="#ffb703"/><ellipse cx="62" cy="136" rx="32" ry="10" fill="url(#gc)"/><text x="62" y="141" text-anchor="middle" font-size="15" fill="#b57900" font-weight="700">৳</text></g></svg>`;
+function users(){try{return JSON.parse(st.get('h_users'))||{}}catch(e){return {}}}
+function login(m){
+ const mode=m||(Object.keys(users()).length?'in':'reg'),reg=mode==='reg';_m=mode;
+ document.getElementById('app').innerHTML=`${tgl()}<div class="splash">${COVER}<div class="brand">${LOGO}<h1>দৈনিক আয়-ব্যয়</h1></div><p>প্রতিদিনের খরচ আর মাসিক আয়ের স্মার্ট হিসাব</p><div class="chips"><span>🧾 দৈনিক খরচ</span><span>💰 মাসিক আয়</span><span>📊 খাতভিত্তিক হিসাব</span></div></div><div class="card"><h2>${reg?'নতুন রেজিস্ট্রেশন':'লগইন'}</h2>${reg?'<input id="nm" placeholder="আপনার নাম">':''}<input id="ph" type="tel" inputmode="numeric" maxlength="11" placeholder="মোবাইল নম্বর (01XXXXXXXXX)"><p id="er" class="out mu"></p><button class="btn" onclick="${reg?'doReg()':'doLogin()'}">${reg?'রেজিস্ট্রেশন করুন':'প্রবেশ করুন'}</button>${reg?'<p class="mu" style="font-size:13px;text-align:center;margin-top:10px">রেজিস্ট্রেশন করলে নিচের গোপনীয়তা নীতি প্রযোজ্য হবে।</p>':''}<p class="mu" style="margin-top:12px;text-align:center">${reg?'আগে রেজিস্ট্রেশন করেছেন?':'নতুন ব্যবহারকারী?'} <a href="#" onclick="login('${reg?'in':'reg'}');return false" style="color:var(--pr);font-weight:600">${reg?'লগইন করুন':'রেজিস্ট্রেশন করুন'}</a></p></div><p style="text-align:center;margin-top:14px"><a href="#" onclick="shareScr();return false" class="mu">📣 শেয়ার</a> &nbsp;·&nbsp; <a href="#" onclick="privacy();return false" class="mu">🔒 গোপনীয়তা নীতি</a> &nbsp;·&nbsp; <a href="#" onclick="adminGate();return false" class="mu">🔒 অ্যাডমিন</a></p>`;tr(document.getElementById('app'));
+}
+function phone(){const p=document.getElementById('ph').value.trim();if(!/^01[3-9]\d{8}$/.test(p)){err('সঠিক ১১ সংখ্যার মোবাইল নম্বর দিন');return null}return p}
+function err(t){document.getElementById('er').textContent=T(t)}
+function enter(p){user=p;st.set('h_user',p);load();tab='home';render()}
+function doReg(){
+ const n=document.getElementById('nm').value.trim();
+ if(!n){err('আপনার নাম লিখুন');return}
+ const p=phone();if(!p)return;
+ const u=users();
+ if(u[p]){err('এই নম্বর দিয়ে আগেই রেজিস্ট্রেশন হয়েছে। লগইন করুন।');return}
+ u[p]={name:n,ts:Date.now()};st.set('h_users',JSON.stringify(u));enter(p);
+}
+function doLogin(){
+ const p=phone();if(!p)return;
+ if(!users()[p]){err('এই নম্বরটি নিবন্ধিত নয়। আগে রেজিস্ট্রেশন করুন।');return}
+ enter(p);
+}
+function logout(){st.set('h_user','');user=null;login()}
+function mine(){return data.tx.filter(t=>t.date.startsWith(ym(cur)))}
+function render(){
+ if(!user)return login();touch();
+ const tx=mine(),inc=tx.filter(t=>t.type==='in').reduce((a,t)=>a+t.amt,0),exp=tx.filter(t=>t.type==='out').reduce((a,t)=>a+t.amt,0);
+ let h=`<div class="top"><div class="hb">${LOGO}<b>দৈনিক আয়-ব্যয়</b></div>${tgl()}</div>`+(tx.length&&inc-exp<=(cfg.limit??2000)?`<div class="al" style="margin:0 0 12px"><span style="font-size:26px">🔔</span><div><b>ব্যালেন্স সতর্কতা!</b><div style="font-size:14px">আপনার ব্যালেন্স ${tk(inc-exp)}, যা ${tk(cfg.limit??2000)} বা তার কম</div></div></div>`:'')+`<div class="clk"><b id="ck"></b><span id="dt"></span></div><div class="mon" style="${tab==='loan'?'display:none':''}"><button onclick="mv(-1)">‹</button><h2>${MN[cur.getMonth()]} ${bn(cur.getFullYear())}</h2><button onclick="mv(1)">›</button></div>`;
+ if(tab==='home'){
+  h+=`<div class="hero"><small>অবশিষ্ট ব্যালেন্স</small><h1>${tk(inc-exp)}</h1><div class="row"><div class="pill"><small>আয়</small><b>${tk(inc)}</b></div><div class="pill"><small>খরচ</small><b>${tk(exp)}</b></div></div></div>`;
+  const by={};tx.filter(t=>t.type==='out').forEach(t=>by[t.cat]=(by[t.cat]||0)+t.amt);
+  h+=`<div class="card"><h2>খাত অনুযায়ী খরচ</h2>`;
+  const e=Object.entries(by).sort((a,b)=>b[1]-a[1]);
+  h+=e.length?e.map(([k,v])=>`<div style="margin-top:14px"><div style="display:flex;justify-content:space-between"><span>${CATS[k][0]} ${CATS[k][1]}</span><b>${tk(v)}</b></div><div class="bar"><i style="width:${v/exp*100}%"></i></div></div>`).join(''):'<div class="empty">এই মাসে কোনো খরচ নেই</div>';
+  h+=`</div>`;
+  const days=new Set(tx.filter(t=>t.type==='out').map(t=>t.date)).size;
+  if(days)h+=`<div class="card"><span class="mu">দৈনিক গড় খরচ</span><h2 style="font-size:22px">${tk(exp/days)}</h2></div>`;
+  h+=`<div class="card"><h2>সাম্প্রতিক লেনদেন</h2>${list(tx.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,5))}</div>`;
+  h+=`<div class="card"><h2>📄 মাসিক রিপোর্ট</h2><p class="mu">${MN[cur.getMonth()]} মাসের পুরো হিসাব PDF করে সংরক্ষণ করুন</p><button class="btn" onclick="pdf()">PDF ডাউনলোড করুন</button></div>${shareCard()}<div class="card"><h2>⚙️ অ্যাকাউন্ট</h2><button class="btn" style="background:var(--bg);color:var(--tx);border:1px solid var(--bd)" onclick="privacy()">🔒 গোপনীয়তা নীতি</button><button class="btn" style="background:var(--rd)" onclick="delMe()">🗑️ অ্যাকাউন্ট মুছে ফেলুন</button></div>`;
+ }else if(tab==='loan'){
+  const lo=data.loans,sum=k=>lo.filter(l=>l.kind===k&&!l.done).reduce((a,l)=>a+l.amt-(l.paid||0),0),pend=lo.filter(l=>!l.done).sort((a,b)=>b.date.localeCompare(a.date)),done=lo.filter(l=>l.done);
+  h+=`<div class="row" style="margin-top:14px"><div class="card" style="margin:0"><small class="mu">আমি দেব</small><b class="out" style="display:block;font-size:22px">${tk(sum('borrow'))}</b></div><div class="card" style="margin:0"><small class="mu">আমি পাব</small><b class="in" style="display:block;font-size:22px">${tk(sum('lend'))}</b></div></div>
+<div class="card"><h2>নতুন ধার যোগ করুন</h2><select id="lk"><option value="borrow">🤝 ধার নেওয়া</option><option value="lend">💸 ধার দেওয়া</option></select><input id="ln" placeholder="ব্যক্তির নাম"><input id="la" type="number" inputmode="decimal" placeholder="টাকার পরিমাণ"><input id="ld" type="date" value="${today()}"><input id="lt" placeholder="নোট (ঐচ্ছিক)"><button class="btn" onclick="addLoan()">যোগ করুন</button></div>
+<div class="card"><h2>বাকি তালিকা</h2>${pend.length?loanList(pend):'<div class="empty">কোনো ধার নেই</div>'}</div>${done.length?`<div class="card"><h2>শোধ হওয়া তালিকা</h2>${loanList(done)}</div>`:''}`;
+ }else{
+  const type=tab==='exp'?'out':'in',C=type==='out'?CATS:SRC;
+  h+=`<div class="card"><h2>${type==='out'?'নতুন খরচ যোগ করুন':'নতুন আয় যোগ করুন'}</h2><input id="a" type="number" inputmode="decimal" placeholder="টাকার পরিমাণ"><select id="c">${opts(C)}</select><input id="d" type="date" value="${today()}"><input id="n" placeholder="নোট (ঐচ্ছিক)"><button class="btn" onclick="add('${type}')">যোগ করুন</button></div>`;
+  const l=tx.filter(t=>t.type===type).sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
+  h+=`<div class="card"><div style="display:flex;justify-content:space-between"><h2>এই মাসের তালিকা</h2><b class="${type==='out'?'out':'in'}">${tk(type==='out'?exp:inc)}</b></div>${list(l)}</div>`;
+ }
+ h+=`<div class="nav"><div><button class="${tab==='home'?'on':''}" onclick="go('home')"><span>🏠</span>হোম</button><button class="${tab==='exp'?'on':''}" onclick="go('exp')"><span>🧾</span>খরচ</button><button class="${tab==='loan'?'on':''}" onclick="go('loan')"><span>🤝</span>ধার</button><button class="${tab==='inc'?'on':''}" onclick="go('inc')"><span>💰</span>আয়</button><button onclick="logout()"><span>🚪</span>বের হন</button></div></div>`;
+ document.getElementById('app').innerHTML=h;tr(document.getElementById('app'));tick();
+}
+function list(l){
+ if(!l.length)return '<div class="empty">কিছু নেই</div>';
+ return l.map(t=>{const c=(t.type==='out'?CATS:SRC)[t.cat];const d=new Date(t.date);return `<div class="item"><div class="ic">${c[0]}</div><div class="m"><div>${c[1]}</div><small>${bn(d.getDate())} ${MN[d.getMonth()]}${t.note?' · '+esc(t.note):''}</small></div><span class="amt ${t.type}">${t.type==='out'?'−':'+'}${tk(t.amt)}</span><button class="x" onclick="del(${t.id})">✕</button></div>`}).join('');
+}
+function tick(){const a=document.getElementById('ck'),b=document.getElementById('dt');if(!a)return;const n=new Date();a.textContent=n.toLocaleTimeString(lang==='en'?'en-US':'bn-BD',{hour:'2-digit',minute:'2-digit',second:'2-digit'});b.textContent=n.toLocaleDateString(lang==='en'?'en-US':'bn-BD',{weekday:'long',day:'numeric',month:'long'})}
+setInterval(tick,1000);
+function msg(t,icon){const m=document.createElement('div');m.className='mdl';m.innerHTML=`<div class="mb"><div class="big">${icon||'ℹ️'}</div><p style="margin:10px 0">${t}</p><button class="btn" onclick="this.closest('.mdl').remove()">ঠিক আছে</button></div>`;tr(m);document.body.appendChild(m)}
+function bal(){const t=mine();return t.filter(x=>x.type==='in').reduce((a,x)=>a+x.amt,0)-t.filter(x=>x.type==='out').reduce((a,x)=>a+x.amt,0)}
+function chk(type){const lim=data.limit??2000;if(type==='out'&&bal()<lim){try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}msg(`<b>ব্যালেন্স কমে গেছে!</b><br>বর্তমান ব্যালেন্স ${tk(bal())}, যা ${tk(lim)} এর নিচে।`,'⏰')}}
+function setLim(){const v=parseFloat(document.getElementById('lm').value);if(!(v>=0))return;data.limit=v;save();render()}
+const DG=s=>lang==='en'?String(s):String(s).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
+function mkPdf(js){
+ const enc=new TextEncoder(),parts=[],off=[];let len=0;
+ const add=x=>{const b=typeof x==='string'?enc.encode(x):x;parts.push(b);len+=b.length};
+ const obj=(n,fn)=>{off[n]=len;add(n+' 0 obj\n');fn();add('\nendobj\n')};
+ add('%PDF-1.4\n');const n=js.length;
+ obj(1,()=>add('<</Type/Catalog/Pages 2 0 R>>'));
+ obj(2,()=>add('<</Type/Pages/Count '+n+'/Kids['+js.map((_,i)=>(3+3*i)+' 0 R').join(' ')+']>>'));
+ js.forEach((j,i)=>{const p=3+3*i,cs='q 595.28 0 0 841.89 0 0 cm /Im0 Do Q';
+  obj(p,()=>add('<</Type/Page/Parent 2 0 R/MediaBox[0 0 595.28 841.89]/Resources<</XObject<</Im0 '+(p+2)+' 0 R>>>>/Contents '+(p+1)+' 0 R>>'));
+  obj(p+1,()=>add('<</Length '+cs.length+'>>\nstream\n'+cs+'\nendstream'));
+  obj(p+2,()=>{add('<</Type/XObject/Subtype/Image/Width '+j.w+'/Height '+j.h+'/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length '+j.bytes.length+'>>\nstream\n');add(j.bytes);add('\nendstream')})});
+ const total=3+3*n,xr=len;
+ add('xref\n0 '+total+'\n0000000000 65535 f \n');
+ for(let i=1;i<total;i++)add(String(off[i]).padStart(10,'0')+' 00000 n \n');
+ add('trailer\n<</Size '+total+'/Root 1 0 R>>\nstartxref\n'+xr+'\n%%EOF');
+ const out=new Uint8Array(len);let o=0;parts.forEach(b=>{out.set(b,o);o+=b.length});return out}
+async function pdf(){
+ const tx=mine().sort((a,b)=>a.date.localeCompare(b.date)||a.id-b.id),inc=tx.filter(t=>t.type==='in').reduce((a,t)=>a+t.amt,0),exp=tx.filter(t=>t.type==='out').reduce((a,t)=>a+t.amt,0),by={};
+ tx.filter(t=>t.type==='out').forEach(t=>by[t.cat]=(by[t.cat]||0)+t.amt);
+ try{await document.fonts.load('700 30px "Hind Siliguri"');await document.fonts.load('400 30px "Hind Siliguri"')}catch(e){}
+ const W=1240,H=1754,M=80,ff='"Hind Siliguri","Noto Sans Bengali",sans-serif',pages=[];let g,y;
+ const np=()=>{const c=document.createElement('canvas');c.width=W;c.height=H;g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,W,H);pages.push(c);y=M};
+ const tt=(s,px,py,sz,w,col,al)=>{g.font=w+' '+sz+'px '+ff;g.fillStyle=col;g.textAlign=al||'left';g.fillText(s,px,py)};
+ const cut=(s,mx,sz)=>{g.font='400 '+sz+'px '+ff;while(s.length>1&&g.measureText(s).width>mx)s=s.slice(0,-1);return s};
+ const line=()=>{g.fillStyle='#e6e9f2';g.fillRect(M,y,W-2*M,2)};
+ np();
+ tt(L('দৈনিক আয়-ব্যয়','Daily Income & Expense'),M,y+50,54,700,'#5b5bf0');y+=90;
+ tt(MN[cur.getMonth()]+' '+bn(cur.getFullYear())+' · '+L('মোবাইল','Mobile')+': '+DG(user),M,y,28,400,'#6b7690');y+=60;
+ const bw=(W-2*M-40)/3;
+ [[L('মোট আয়','Total income'),tk(inc),'#12b886'],[L('মোট খরচ','Total expense'),tk(exp),'#f0506e'],[L('ব্যালেন্স','Balance'),tk(inc-exp),'#1b2333']].forEach((b,i)=>{const bx=M+i*(bw+20);g.fillStyle='#f4f6fb';g.fillRect(bx,y,bw,130);tt(b[0],bx+24,y+44,26,400,'#6b7690');tt(b[1],bx+24,y+100,40,700,b[2])});
+ y+=190;
+ tt(L('খাত অনুযায়ী খরচ','Expenses by category'),M,y,34,700,'#1b2333');y+=26;
+ const ce=Object.entries(by).sort((a,b)=>b[1]-a[1]);
+ if(!ce.length){y+=40;tt(L('কোনো খরচ নেই','No expenses'),M,y,28,400,'#6b7690');y+=30}
+ ce.forEach(([k,v])=>{if(y+70>H-M)np();y+=54;tt(T(CATS[k][1]),M,y,28,400,'#1b2333');tt(tk(v),W-M,y,28,600,'#1b2333','right');y+=12;line()});
+ y+=70;if(y+160>H-M)np();
+ tt(L('সব লেনদেন','All transactions'),M,y,34,700,'#1b2333');y+=30;
+ const head=()=>{y+=44;tt(L('তারিখ','Date'),M,y,24,600,'#6b7690');tt(L('খাত','Category'),M+170,y,24,600,'#6b7690');tt(L('নোট','Note'),M+470,y,24,600,'#6b7690');tt(L('টাকা','Amount'),W-M,y,24,600,'#6b7690','right');y+=12;line()};
+ head();
+ if(!tx.length){y+=50;tt('—',M,y,28,400,'#6b7690')}
+ tx.forEach(t=>{if(y+70>H-M){np();head()}const c=(t.type==='out'?CATS:SRC)[t.cat];y+=54;
+  tt(DG(t.date.slice(8))+'/'+DG(t.date.slice(5,7)),M,y,26,400,'#1b2333');tt(cut(T(c[1]),280,26),M+170,y,26,400,'#1b2333');tt(cut(t.note||'',W-2*M-470-260,26),M+470,y,26,400,'#6b7690');tt((t.type==='out'?'−':'+')+tk(t.amt),W-M,y,26,600,t.type==='out'?'#f0506e':'#12b886','right');y+=12;line()});
+ const jp=pages.map(c=>{const b=atob(c.toDataURL('image/jpeg',.92).split(',')[1]),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return{w:W,h:H,bytes:u}});
+ const bytes=mkPdf(jp),name='hishab-'+ym(cur)+'.pdf';
+ let dl=null;try{dl=window.claude&&await claude.use('downloads')}catch(e){}
+ try{
+  if(dl)await dl.save({filename:name,data:bytes.buffer});
+  else{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},3000)}
+ }catch(e){if(!e||e.code!=='declined')msg(L('PDF তৈরি করা যায়নি, আবার চেষ্টা করুন।','Couldn’t create the PDF, please try again.'))}
+}
+const EN=[['অ্যাডমিন','Admin'],['গোপনীয়তা নীতি','Privacy Policy'],['অ্যাকাউন্ট মুছে ফেলুন','Delete account'],['অ্যাকাউন্ট','Account'],['রেজিস্ট্রেশন করলে নিচের গোপনীয়তা নীতি প্রযোজ্য হবে।','By registering, the privacy policy below applies.'],['তারিখ নেই','No date'],['ফেরত দিয়েছি','Repaid'],['ফেরত পেয়েছি','Received'],['শেয়ার','Share'],['ধার নেওয়া','Borrowed'],['➕ পরিশোধ','➕ Repay'],['পরিশোধিত','Paid'],['ধার দেওয়া','Lent'],['ধার','Loans'],['আমি দেব','I owe'],['আমি পাব','I’ll receive'],['নতুন ধার যোগ করুন','Add new loan'],['ব্যক্তির নাম','Person’s name'],['বাকি তালিকা','Pending'],['শোধ হওয়া তালিকা','Settled'],['✓ শোধ হয়েছে','✓ Mark settled'],['↩ আবার খুলুন','↩ Reopen'],['কোনো ধার নেই','No loans'],[', যা ',', which is '],[' বা তার কম',' or less'],['দৈনিক আয়-ব্যয়','Daily Income & Expense'],['প্রতিদিনের খরচ আর মাসিক আয়ের স্মার্ট হিসাব','Smart tracking of daily spending and monthly income'],['দৈনিক খরচ','Daily expenses'],['মাসিক আয়','Monthly income'],['খাতভিত্তিক হিসাব','Category-wise tracking'],['নতুন রেজিস্ট্রেশন','New registration'],['লগইন করুন','Log in'],['লগইন','Log in'],['আপনার নাম লিখুন','Please enter your name'],['আপনার নাম','Your name'],['মোবাইল নম্বর (01XXXXXXXXX)','Mobile number (01XXXXXXXXX)'],['রেজিস্ট্রেশন করুন','Register'],['প্রবেশ করুন','Continue'],['আগে রেজিস্ট্রেশন করেছেন?','Already registered?'],['নতুন ব্যবহারকারী?','New user?'],['সঠিক ১১ সংখ্যার মোবাইল নম্বর দিন','Enter a valid 11-digit mobile number'],['এই নম্বর দিয়ে আগেই রেজিস্ট্রেশন হয়েছে। লগইন করুন।','This number is already registered. Please log in.'],['এই নম্বরটি নিবন্ধিত নয়। আগে রেজিস্ট্রেশন করুন।','This number is not registered. Please register first.'],['অবশিষ্ট ব্যালেন্স','Remaining balance'],['খাত অনুযায়ী খরচ','Expenses by category'],['এই মাসে কোনো খরচ নেই','No expenses this month'],['কোনো খরচ নেই','No expenses'],['দৈনিক গড় খরচ','Daily average spending'],['সাম্প্রতিক লেনদেন','Recent transactions'],['মাসিক রিপোর্ট','Monthly report'],['মাসের পুরো হিসাব PDF করে সংরক্ষণ করুন','full summary, save it as a PDF'],['PDF ডাউনলোড করুন','Download PDF'],['ব্যালেন্স সতর্কতা!','Low balance alert!'],['আপনার ব্যালেন্স ','Your balance is '],[', যা ২০০০ টাকা বা তার কম',', which is ৳2,000 or less'],['বের হন','Logout'],['বাজারদর','Market'],['হোম','Home'],['খরচ','Expenses'],['আয়','Income'],['নতুন খরচ যোগ করুন','Add new expense'],['নতুন আয় যোগ করুন','Add new income'],['টাকার পরিমাণ','Amount'],['নোট (ঐচ্ছিক)','Note (optional)'],['যোগ করুন','Add'],['এই মাসের তালিকা','This month’s list'],['কিছু নেই','Nothing yet'],['আজকের বাজারদর','Today’s market prices'],['সরকারি দৈনিক বাজারদর প্রতিদিন আপডেট হয় নিচের অফিসিয়াল সাইটগুলোতে। এখান থেকে সরাসরি দেখুন।','Official daily government market prices are published on the sites below. Open them directly from here.'],['টিসিবি – নিত্যপণ্যের দৈনিক দর','TCB – Daily prices of essentials'],['কৃষি বিপণন অধিদপ্তর (ডিএএম)','Dept. of Agricultural Marketing (DAM)'],['মোবাইল:','Mobile:'],['মোট আয়','Total income'],['মোট খরচ','Total expense'],['ব্যালেন্স','Balance'],['সব লেনদেন','All transactions'],['তারিখ','Date'],['খাত','Category'],['নোট','Note'],['টাকা','Amount'],['এই ভিউতে PDF ডাউনলোড করা যাচ্ছে না। লিংকটি ব্রাউজারে খুলে চেষ্টা করুন।','PDF download isn’t available in this view. Open the link in your browser and try again.'],['PDF টুল লোড হয়নি, আবার চেষ্টা করুন।','The PDF tool didn’t load, please try again.'],['PDF তৈরি করা যায়নি, আবার চেষ্টা করুন।','Couldn’t create the PDF, please try again.'],['ঠিক আছে','OK'],['খাবার','Food'],['যাতায়াত','Transport'],['ওয়াইফাই বিল','WiFi bill'],['বিদ্যুৎ বিল','Electricity bill'],['গ্যাস বিল','Gas bill'],['নাস্তা','Snacks'],['সঞ্চয়','Savings'],['বাসা ভাড়া','Rent'],['কেনাকাটা','Shopping'],['চিকিৎসা','Health'],['শিক্ষা','Education'],['বিনোদন','Entertainment'],['অন্যান্য','Other'],['বেতন','Salary'],['ব্যবসা','Business'],['ফ্রিল্যান্স','Freelance'],['উপহার','Gift'],['মোবাইল/ইন্টারনেট ব্যালেন্স','Mobile/Internet balance']].sort((a,b)=>b[0].length-a[0].length);
+function T(s){if(lang!=='en')return s;for(const [a,b] of EN)s=s.split(a).join(b);return s}
+function tr(root){if(lang!=='en')return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),L=[];let n;while(n=w.nextNode())L.push(n);L.forEach(x=>{const v=T(x.nodeValue);if(v!==x.nodeValue)x.nodeValue=v});root.querySelectorAll('[placeholder]').forEach(e=>e.placeholder=T(e.placeholder))}
+function isDark(){const t=document.documentElement.dataset.theme;return t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches}
+function tgl(){return `<div class="tg">${isOwn?'<button onclick="adminPanel()">🛠</button>':''}<button onclick="setLang()">${lang==='en'?'বাংলা':'EN'}</button><button onclick="setTheme()">${isDark()?'☀️':'🌙'}</button></div>`}
+function redo(){scr?scr():user?render():login(_m)}
+function setLang(){lang=lang==='en'?'bn':'en';MN=lang==='en'?MNE:MNB;st.set('h_lang',lang);document.documentElement.lang=lang;redo()}
+function setTheme(){const n=isDark()?'light':'dark';document.documentElement.dataset.theme=n;st.set('h_theme',n);redo()}
+let scr=null,cfg={},isOwn=false,adm=false;
+const $=id=>document.getElementById(id),L=(b,e)=>lang==='en'?e:b;
+st.del=k=>{try{localStorage.removeItem(k)}catch(e){delete mem[k]}};
+async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('dc:'+s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function saveCfg(){st.set('h_cfg',JSON.stringify({cats:CATS0,src:SRC0,limit:cfg.limit}))}
+function ask(t,fn){window._f=fn;const m=document.createElement('div');m.className='mdl';m.innerHTML=`<div class="mb"><div class="big">❓</div><p style="margin:10px 0">${T(t)}</p><div class="row"><button class="btn" style="background:var(--bg);color:var(--tx);border:1px solid var(--bd)" onclick="this.closest('.mdl').remove()">${L('না','No')}</button><button class="btn" onclick="this.closest('.mdl').remove();_f()">${L('হ্যাঁ','Yes')}</button></div></div>`;document.body.appendChild(m)}
+function adminGate(){scr=adminGate;$('app').innerHTML=tgl()+`<div class="card"><h2>🔒 ${L('অ্যাডমিন লগইন','Admin login')}</h2><p class="mu" style="margin-top:6px">${L('অ্যাডমিন পাসওয়ার্ড দিন','Enter the admin password')}</p><input id="ap" type="password" inputmode="numeric" placeholder="${L('পাসওয়ার্ড','Password')}"><p id="er" class="out mu"></p><button class="btn" onclick="adminGo()">${L('প্রবেশ করুন','Continue')}</button><button class="btn" style="background:var(--bg);color:var(--tx);border:1px solid var(--bd)" onclick="exitAdmin()">${L('ফিরে যান','Back')}</button></div>`}
+function adminGo(){if($('ap').value.trim()==='2580'){adm=true;adminPanel()}else err(L('ভুল পাসওয়ার্ড','Wrong password'))}
+function privacy(){scr=privacy;$('app').innerHTML=tgl()+`<div class="card"><h2>🔒 ${L('গোপনীয়তা নীতি','Privacy Policy')}</h2><p class="mu" style="margin-top:4px">${L('সর্বশেষ হালনাগাদ: ১৫ নভেম্বর ২০২৬','Last updated: 15 November 2026')}</p>
+<h3 style="margin-top:14px">${L('১. কী তথ্য রাখা হয়','1. What we store')}</h3><p class="mu">${L('আপনার নাম, মোবাইল নম্বর, আপনার যোগ করা খরচ, আয় ও ধারের এন্ট্রি, ভাষা ও থিমের পছন্দ এবং কবে কবে অ্যাপ খুলেছেন তার তারিখ।','Your name, mobile number, the expense, income and loan entries you add, your language and theme choice, and the dates you opened the app.')}</p>
+<h3 style="margin-top:14px">${L('২. তথ্য কোথায় থাকে','2. Where it is kept')}</h3><p class="mu">${L('সব তথ্য আপনার ফোনের ব্রাউজারের স্থানীয় স্টোরেজে জমা থাকে। অ্যাপ এই তথ্য কোনো সার্ভারে পাঠায় না।','All data is kept in your phone browser’s local storage. The app does not send this data to any server.')}</p>
+<h3 style="margin-top:14px">${L('৩. তথ্যের ব্যবহার','3. How it is used')}</h3><p class="mu">${L('তথ্য শুধু আপনার হিসাব দেখানো ও রিপোর্ট তৈরির কাজে ব্যবহার হয়। এতে কোনো বিজ্ঞাপন নেই, আর তথ্য বিক্রি বা কারও সঙ্গে শেয়ার করা হয় না। মোবাইল নম্বর OTP দিয়ে যাচাই করা হয় না।','Data is used only to show your records and build reports. There are no ads, and data is not sold or shared. Your mobile number is not verified by OTP.')}</p>
+<h3 style="margin-top:14px">${L('৪. তৃতীয় পক্ষের সেবা','4. Third-party services')}</h3><p class="mu">${L('ইন্টারনেট থাকলে অ্যাপ Google Fonts থেকে ফন্ট এবং cdnjs থেকে PDF তৈরির টুল লোড করে। এই সেবাগুলো আপনার আইপি ঠিকানা দেখতে পারে। আপনার হিসাবের তথ্য তাদের কাছে যায় না।','When online, the app loads fonts from Google Fonts and PDF tools from cdnjs. These services can see your IP address. Your records are not sent to them.')}</p>
+<h3 style="margin-top:14px">${L('৫. একই ফোন ভাগ করলে','5. Sharing a phone')}</h3><p class="mu">${L('লগইনে পাসওয়ার্ড নেই। একই ফোন ও ব্রাউজারে আপনার নম্বর জানা কেউ আপনার হিসাব খুলতে পারে। অ্যাডমিন প্যানেল সেই ফোনে নিবন্ধিত সবার নাম, নম্বর ও শেষ সক্রিয় তারিখ দেখাতে পারে।','There is no password at login. Anyone who knows your number can open your records on the same phone and browser. The admin panel can show the names, numbers and last-active dates of everyone registered on that phone.')}</p>
+<h3 style="margin-top:14px">${L('৬. তথ্য মুছে ফেলা','6. Deleting your data')}</h3><p class="mu">${L('হোম পেজের নিচে “অ্যাকাউন্ট” অংশ থেকে “অ্যাকাউন্ট মুছে ফেলুন” চাপলে আপনার অ্যাকাউন্ট ও সব হিসাব স্থায়ীভাবে মুছে যায়, ফেরানো যায় না। ব্রাউজারের ডেটা মুছলেও তথ্য চলে যায়।','Tap “Delete account” in the “Account” section at the bottom of the home page to permanently delete your account and all records. This cannot be undone. Clearing your browser data also removes it.')}</p>
+<h3 style="margin-top:14px">${L('৭. নীতির পরিবর্তন','7. Changes')}</h3><p class="mu">${L('নীতি বদলালে এই পেজে হালনাগাদ করা হবে।','If this policy changes, it will be updated on this page.')}</p>
+<button class="btn" onclick="exitAdmin()">${L('ফিরে যান','Back')}</button></div>`}
+function delMe(){ask(L('আপনার অ্যাকাউন্ট ও সব হিসাব (খরচ, আয়, ধার) স্থায়ীভাবে মুছে যাবে। এটি ফেরানো যাবে না। নিশ্চিত?','Your account and all records (expenses, income, loans) will be permanently deleted. This cannot be undone. Sure?'),()=>{const u=users();delete u[user];st.set('h_users',JSON.stringify(u));st.del('h_'+user);st.del('h_user');user=null;data={tx:[],loans:[]};tab='home';login('reg')})}
+const APP_URL='https://claude.ai/artifact/91Vr6m7TGW88wFZCPbjsKQ';
+function shareTxt(){return L('দৈনিক আয়-ব্যয় — প্রতিদিনের খরচ, আয় ও ধারের হিসাব রাখার সহজ অ্যাপ। এখানে দেখুন:','Daily Income & Expense — a simple app to track daily spending, income and loans. Try it:')}
+const IC={
+wa:'<svg viewBox="0 0 24 24" width="26" height="26"><path fill="#fff" d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.8-1.3A9.5 9.5 0 1 0 12 2.5z"/><path fill="#25D366" d="M8.6 7.4c-.3 0-.6.2-.8.5-.4.6-.5 1.5.4 3 1.2 2 2.9 3.4 4.8 4 1 .3 1.8.1 2.2-.5.2-.3.3-.6.2-.8l-1.8-.9c-.2-.1-.4 0-.6.2l-.5.6c-.9-.3-2.2-1.5-2.6-2.4l.5-.6c.2-.2.2-.4.1-.6l-.8-1.8c-.1-.2-.3-.3-.5-.3z"/></svg>',
+fb:'<svg viewBox="0 0 24 24" width="26" height="26"><path fill="#fff" d="M14 8.5V6.8c0-.6.4-.8.8-.8H17V2.5h-3c-3 0-4 2-4 4V8.5H7.5V12H10v9.5h4V12h2.7l.5-3.5z"/></svg>',
+ms:'<svg viewBox="0 0 24 24" width="26" height="26"><path fill="#fff" d="M12 2.5C6.8 2.5 2.8 6.3 2.8 11.2c0 2.6 1.2 4.9 3.1 6.4v3.9l3.6-2c.8.2 1.6.3 2.5.3 5.2 0 9.2-3.8 9.2-8.6S17.2 2.5 12 2.5z"/><path fill="#0084FF" d="M6.8 14.2l3.4-3.7 2.6 2.2 3.6-2.8-3.2 4-2.6-2.2z"/></svg>',
+tg:'<svg viewBox="0 0 24 24" width="26" height="26"><path fill="#fff" d="M21.5 3.5L2.8 10.8c-.8.3-.8 1.4 0 1.7l4.6 1.7 1.8 5.6c.2.6 1 .8 1.4.3l2.6-2.6 4.8 3.5c.6.4 1.3.1 1.5-.6l3.2-15.5c.2-.8-.5-1.5-1.2-1.2zM9.5 14.5l9-6.2-6.8 7.2-.3 3.3z"/></svg>',
+x:'<svg viewBox="0 0 24 24" width="22" height="22"><path fill="#fff" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+cp:'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
+sh:'<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>'};
+function shareCard(){const u=encodeURIComponent(APP_URL),t=encodeURIComponent(shareTxt()),a=(c,n,i,h)=>`<a class="sb" style="background:${c}" title="${n}" aria-label="${n}" href="${h}" target="_blank" rel="noopener">${IC[i]}</a>`;
+ return `<div class="card"><h2>📣 ${L('বন্ধুদের সাথে শেয়ার করুন','Share with friends')}</h2><div class="sg">${navigator.share?`<button class="sb" style="background:var(--pr)" title="${L('শেয়ার','Share')}" aria-label="${L('শেয়ার','Share')}" onclick="nativeShare()">${IC.sh}</button>`:''}${a('#25D366','WhatsApp','wa','https://wa.me/?text='+t+'%20'+u)}${a('#1877F2','Facebook','fb','https://www.facebook.com/sharer/sharer.php?u='+u)}${a('#0084FF','Messenger','ms','fb-messenger://share/?link='+u)}${a('#229ED9','Telegram','tg','https://t.me/share/url?url='+u+'&text='+t)}${a('#111','X','x','https://twitter.com/intent/tweet?text='+t+'&url='+u)}<button class="sb" style="background:#6b7690" title="${L('লিংক কপি','Copy link')}" aria-label="${L('লিংক কপি','Copy link')}" onclick="copyLink()">${IC.cp}</button></div></div>`}
+function nativeShare(){try{navigator.share({title:L('দৈনিক আয়-ব্যয়','Daily Income & Expense'),text:shareTxt(),url:APP_URL}).catch(()=>{})}catch(e){}}
+function copyLink(){const done=()=>msg(L('লিংক কপি হয়েছে','Link copied'),'✅');function fb(){const t=document.createElement('textarea');t.value=APP_URL;document.body.appendChild(t);t.select();try{document.execCommand('copy')}catch(e){}t.remove();done()}try{navigator.clipboard.writeText(APP_URL).then(done,fb)}catch(e){fb()}}
+function shareScr(){scr=shareScr;$('app').innerHTML=tgl()+shareCard()+`<button class="btn" onclick="exitAdmin()">${L('ফিরে যান','Back')}</button>`}
+function exitAdmin(){scr=null;adm=false;user?render():login(_m)}
+function allData(){const u=users(),o=[];for(const p in u){let d;try{d=JSON.parse(st.get('h_'+p))||{tx:[]}}catch(e){d={tx:[]}}o.push([p,u[p],d.tx||[]])}return o}
+function delUser(p){ask(L('এই ব্যবহারকারী ও তার সব হিসাব মুছে যাবে। নিশ্চিত?','This user and all their records will be deleted. Sure?'),()=>{const u=users();delete u[p];st.set('h_users',JSON.stringify(u));st.del('h_'+p);adminPanel()})}
+(async()=>{try{if(window.claude){const u=await claude.use('user');if(u&&u.isOwner()){isOwn=true;redo()}}}catch(e){}})();
+function touch(){const u=users(),t=today();if(u[user]&&u[user].d!==t){u[user].d=t;u[user].days=(u[user].days||[]).concat(t).slice(-60);st.set('h_users',JSON.stringify(u))}}
+function wk(u){const c=new Date();c.setDate(c.getDate()-6);const k=c.getFullYear()+'-'+String(c.getMonth()+1).padStart(2,'0')+'-'+String(c.getDate()).padStart(2,'0');return (u.days||[]).some(d=>d>=k)}
+function act(u){if(!u.d)return L('এখনও সক্রিয় হয়নি','No activity yet');const t=u.d===today();return (t?'🟢 '+L('আজ সক্রিয়','Active today'):'⚪ '+L('শেষ সক্রিয়: ','Last active: ')+DG(u.d.slice(8))+'/'+DG(u.d.slice(5,7)))+' · '+bn((u.days||[]).length)+' '+L('দিন','days')}
+function adminPanel(){
+ if(!isOwn&&!adm)return;scr=adminPanel;const A=allData().sort((a,b)=>(b[1].d||'').localeCompare(a[1].d||''));
+ $('app').innerHTML=tgl()+`<div style="display:flex;justify-content:space-between;align-items:center"><h2 style="font-size:22px">🛠 ${L('অ্যাডমিন প্যানেল','Admin panel')}</h2><button class="x" style="font-size:15px;color:var(--pr);font-weight:600" onclick="exitAdmin()">${L('বের হন','Exit')}</button></div>
+<div class="hero"><small>${L('মোট নিবন্ধিত ব্যবহারকারী','Total registered users')}</small><h1 style="margin-bottom:6px">${bn(A.length)}</h1><small>🟢 ${L('আজ সক্রিয়','Active today')}: <b>${bn(A.filter(x=>x[1].d===today()).length)}</b> · ${L('গত ৭ দিনে','Last 7 days')}: <b>${bn(A.filter(x=>wk(x[1])).length)}</b></small></div>
+<div class="card"><h2>👥 ${L('ব্যবহারকারী তালিকা','Users')}</h2>${A.map(([p,u])=>`<div class="item"><div class="ic" style="${u.d===today()?'background:rgba(18,184,134,.2)':''}">${u.d===today()?'🟢':'👤'}</div><div class="m"><div>${esc(u.name||L('নাম নেই','No name'))}</div><small>${DG(p)} · ${act(u)}</small></div><button class="x" onclick="delUser('${p}')">✕</button></div>`).join('')||`<div class="empty">${L('কেউ নেই','No users')}</div>`}</div>
+<p class="mu" style="text-align:center;margin-top:12px">${L('শুধু এই ফোনের ব্যবহারকারী দেখানো হচ্ছে','Showing users on this device only')}</p>`}
+function loanList(a){return a.map(l=>{const d=new Date(l.date);return `<div class="item" style="${l.done?'opacity:.55':''}"><div class="ic">${l.kind==='borrow'?'🤝':'💸'}</div><div class="m"><div style="${l.done?'text-decoration:line-through':''}">${esc(l.name)}</div><small>${l.kind==='borrow'?'ধার নেওয়া':'ধার দেওয়া'} · ${bn(d.getDate())} ${MN[d.getMonth()]}${l.paid&&!l.done?' · পরিশোধিত '+tk(l.paid)+' / '+tk(l.amt):''}${l.note?' · '+esc(l.note):''}</small>${hist(l)}</div><div style="text-align:right"><div class="amt ${l.kind==='borrow'?'out':'in'}">${tk(l.done?l.amt:l.amt-(l.paid||0))}</div><button class="x" style="font-size:13px;color:var(--pr)" onclick="${l.done?'loanDone':'payModal'}(${l.id})">${l.done?'↩ আবার খুলুন':'➕ পরিশোধ'}</button></div><button class="x" onclick="delLoan(${l.id})">✕</button></div>`}).join('')}
+function addLoan(){const n=$('ln').value.trim(),a=parseFloat($('la').value);if(!n||!(a>0)){(n?$('la'):$('ln')).focus();return}data.loans.push({id:Date.now(),kind:$('lk').value,name:n,amt:a,date:$('ld').value||today(),note:$('lt').value.trim(),done:false});save();render()}
+function loanDone(id){const l=data.loans.find(x=>x.id===id);if(l){l.done=!l.done;if(!l.done){l.paid=0;l.pays=[]}save();render()}}
+function dfmt(x){const d=new Date(x);return bn(d.getDate())+' '+MN[d.getMonth()]+' '+bn(d.getFullYear())}
+function hist(l){const a=l.pays||(l.paid?[{d:'',a:l.paid}]:[]);return a.map(p=>`<small style="display:block;color:var(--gr)">↳ ${p.d?dfmt(p.d):'তারিখ নেই'} · ${l.kind==='borrow'?'ফেরত দিয়েছি':'ফেরত পেয়েছি'} ${tk(p.a)}</small>`).join('')}
+function payModal(id){const l=data.loans.find(x=>x.id===id);if(!l)return;const rem=l.amt-(l.paid||0),m=document.createElement('div');m.className='mdl';m.innerHTML=`<div class="mb"><div class="big">💵</div><p style="margin:10px 0">${esc(l.name)} · ${L('বাকি','Remaining')} ${tk(rem)}</p><input id="pa" type="number" inputmode="decimal" value="${rem}"><input id="pd" type="date" value="${today()}"><div class="row"><button class="btn" style="background:var(--bg);color:var(--tx);border:1px solid var(--bd)" onclick="this.closest('.mdl').remove()">${L('বাতিল','Cancel')}</button><button class="btn" onclick="loanPay(${id})">${L('নিশ্চিত','Confirm')}</button></div></div>`;document.body.appendChild(m)}
+function loanPay(id){const l=data.loans.find(x=>x.id===id),v=parseFloat($('pa').value);if(!l||!(v>0))return;const pv=Math.min(v,l.amt-(l.paid||0));l.pays=(l.pays||(l.paid?[{d:'',a:l.paid}]:[])).concat({d:$('pd').value||today(),a:pv});l.paid=Math.min(l.amt,(l.paid||0)+v);l.done=l.paid>=l.amt;document.querySelector('.mdl').remove();save();render()}
+function delLoan(id){data.loans=data.loans.filter(x=>x.id!==id);save();render()}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function add(type){
+ const a=parseFloat(document.getElementById('a').value);if(!(a>0)){document.getElementById('a').focus();return}
+ const d=document.getElementById('d').value||today();
+ data.tx.push({id:Date.now(),type,amt:a,cat:document.getElementById('c').value,date:d,note:document.getElementById('n').value.trim()});
+ save();cur=new Date(d);cur.setDate(1);render();
+}
+function del(id){data.tx=data.tx.filter(t=>t.id!==id);save();render()}
+function go(t){tab=t;render();window.scrollTo(0,0)}
+function mv(n){cur.setMonth(cur.getMonth()+n);render()}
+try{const c=JSON.parse(st.get('h_cfg'));if(c){cfg=c;if(c.cats){for(const k in CATS0)delete CATS0[k];Object.assign(CATS0,c.cats)}if(c.src){for(const k in SRC0)delete SRC0[k];Object.assign(SRC0,c.src)}}}catch(e){}
+lang=st.get('h_lang')==='en'?'en':'bn';MN=lang==='en'?MNE:MNB;document.documentElement.lang=lang;const th=st.get('h_theme');if(th)document.documentElement.dataset.theme=th;
+user=st.get('h_user');if(user){const u=users();if(!u[user]){u[user]={name:'',ts:Date.now()};st.set('h_users',JSON.stringify(u))}load()}render();
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user profile and currency settings.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated Firebase user UID."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name."
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address."
+        },
+        "currencyCode": {
+          "type": "string",
+          "enum": ["BDT", "USD", "EUR", "GBP", "INR", "CAD", "AUD", "JPY"],
+          "description": "Preferred ISO currency code."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp written via FieldValue.serverTimestamp()."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp written via FieldValue.serverTimestamp()."
+        }
+      },
+      "required": ["userId", "displayName", "email", "currencyCode", "createdAt", "updatedAt"]
+    },
+    "TransactionItem": {
+      "title": "TransactionItem",
+      "description": "A daily income or expense entry.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["INCOME", "EXPENSE"] },
+        "category": { "type": "string" },
+        "note": { "type": "string" },
+        "dateMillis": { "type": "integer" },
+        "monthKey": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "amount", "type", "category", "dateMillis", "monthKey", "createdAt", "updatedAt"]
+    },
+    "CategoryBudget": {
+      "title": "CategoryBudget",
+      "description": "Monthly spending limit for a category or overall budget.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "category": { "type": "string" },
+        "limitAmount": { "type": "number" },
+        "monthKey": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "category", "limitAmount", "monthKey", "createdAt", "updatedAt"]
+    },
+    "RecurringPayment": {
+      "title": "RecurringPayment",
+      "description": "Scheduled recurring bill or income with reminder settings.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["INCOME", "EXPENSE"] },
+        "category": { "type": "string" },
+        "frequency": { "type": "string", "enum": ["WEEKLY", "MONTHLY", "YEARLY"] },
+        "dayOfMonth": { "type": "integer" },
+        "nextDueMillis": { "type": "integer" },
+        "reminderDaysBefore": { "type": "integer" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "amount", "type", "category", "frequency", "dayOfMonth", "nextDueMillis", "reminderDaysBefore", "active", "createdAt", "updatedAt"]
+    },
+    "LoanItem": {
+      "title": "LoanItem",
+      "description": "Personal loan borrowed or lent with partial repayment tracking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "kind": { "type": "string", "enum": ["BORROW", "LEND"] },
+        "personName": { "type": "string" },
+        "amount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "dateMillis": { "type": "integer" },
+        "note": { "type": "string" },
+        "settled": { "type": "boolean" },
+        "repayments": { "type": "array", "description": "Bounded list of 'epochMillis|amount' repayment entries." },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "kind", "personName", "amount", "paidAmount", "dateMillis", "settled", "repayments", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Per-user profile and currency preference."
+    },
+    "/users/{userId}/transactions/{txId}": {
+      "schema": { "$ref": "#/entities/TransactionItem" },
+      "description": "User's synced daily income and expense ledger."
+    },
+    "/users/{userId}/budgets/{budgetId}": {
+      "schema": { "$ref": "#/entities/CategoryBudget" },
+      "description": "User's monthly overall and category budget limits."
+    },
+    "/users/{userId}/recurring/{recurringId}": {
+      "schema": { "$ref": "#/entities/RecurringPayment" },
+      "description": "User's recurring bills and income reminders."
+    },
+    "/users/{userId}/loans/{loanId}": {
+      "schema": { "$ref": "#/entities/LoanItem" },
+      "description": "User's borrowed and lent loan ledger."
+    }
+  }
+}

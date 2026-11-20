@@ -1,0 +1,6 @@
+{
+  "name": "দৈনিক আয়-ব্যয়",
+  "description": "Daily income and expense tracker with category budgeting, monthly spending analytics, cloud sync, biometric lock, recurring payment reminders, PDF/Excel export, and AI savings tips.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
